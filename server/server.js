@@ -2,7 +2,7 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const db = require('./database')
+const db = require('./db')
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const dbStore = new SequelizeStore({ db: db })
@@ -27,8 +27,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //routes
-app.use('/api', require('./api'))
-app.use('auth', require('./auth'))
+//app.use('/api', require('./api'))
+//app.use('auth', require('./auth'))
 
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', '/public/index.html'))
