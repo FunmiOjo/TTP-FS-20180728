@@ -4,15 +4,19 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const session = require('express-session')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const dbStore = new SequelizeStore({ db: db })
+
 const passport = require('passport')
 const app = express()
 
 //middleware
+
+// session middleware
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
+const dbStore = new SequelizeStore({ db: db })
 dbStore.sync()
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'yoursecretlovewhycantwetellsomebody',
+  secret: process.env.SESSION_SECRET
   store: dbStore,
   resave: false,
   saveUninitialized: false
