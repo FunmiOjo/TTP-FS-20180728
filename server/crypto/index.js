@@ -1,24 +1,30 @@
 const crypto = require('crypto')
 
-const generateSalt = (length) => {
+const generateSalt = length => {
   return crypto.randomBytes(length).toString('hex')
 }
 
-const hasher = (hashAlgo) => {
-  return (password) => {
-    const salt = generateSalt(128)
-    const hash = crypto.createHmac(hashAlgo, salt)
-    hash.update(password)
-    const hashedPassword = hash.digest('hex')
-    return {
-      hashedPassword,
-      salt
-    }
-  }
+const getHashedPassword = (password, salt) => {
+  return crypto
+    .createHash('RSA-SHA256')
+    .update(password)
+    .update(salt)
+    .digest('hex')
 }
 
-const getSaltAndHashedPassword = hasher('sha512')
+const isCorrectPassword = (
+  passwordToCheck,
+  hashedPasswordInDatabase,
+  saltInDatabase
+) => {
+  return (
+    getHashedPassword(passwordToCheck, saltInDatabase) ===
+    hashedPasswordInDatabase
+  )
+}
 
 module.exports = {
-  getSaltAndHashedPassword
+  generateSalt,
+  getHashedPassword,
+  isCorrectPassword,
 }

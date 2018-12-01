@@ -7,20 +7,26 @@ const { User } = require('.')
 const session = require('express-session')
 const passport = require('passport')
 const app = express()
+const port = process.env.PORT || 3000
 
 //middleware
+if (process.env.NODE_ENV === 'test') {
+  after('close the session store', () => sessionStore.stopExpiringSessions())
+}
 
 // session middleware
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const dbStore = new SequelizeStore({ db: db })
 dbStore.sync()
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  store: dbStore,
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'yoursecretlovewhycantwetellsomebody',
+    store: dbStore,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
@@ -29,7 +35,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id)
     done(null, user)
-  } catch(error) {
+  } catch (error) {
     done(error)
   }
 })
@@ -44,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 //routes
 //app.use('/api', require('./api'))
-//app.use('auth', require('./auth'))
+app.use('/auth', require('./auth'))
 
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', '/public/index.html'))
@@ -56,7 +62,15 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || 'Internal server error')
 })
 
+if (!module.parent) {
+  db.sync()
+    .then(() => {
+      console.log('Database synced')
+    })
+    .then(() => {
+      app.listen(port, () => console.log(`Listening on port ${port}`))
+    })
+    .catch(error => console.error(error))
+}
+
 module.exports = app
-
-
-
