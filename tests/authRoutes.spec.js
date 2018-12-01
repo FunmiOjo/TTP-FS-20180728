@@ -30,8 +30,8 @@ describe('Auth routes', function() {
           email: 'horacio.oliveira@email.com',
           password: '1234',
         })
-      console.log('status', response.statusMessage)
       expect(response.statusCode).to.equal(200)
+      expect(response.body.name).to.equal('Horacio Oliveira')
     })
   })
 })

@@ -34,7 +34,6 @@ router.put('/login', async (req, res, next) => {
           console.error(error)
           next(err)
         } else {
-          console.log('response')
           res.json(user)
         }
       })
