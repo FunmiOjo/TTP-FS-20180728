@@ -23,7 +23,7 @@ const setSignUpError = error => {
 export const signUpUser = signUpInfo => {
   return async dispatch => {
     try {
-      const user = await axios.post('/auth/signup', signUpInfo)
+      const { data: user } = await axios.post('/auth/signup', signUpInfo)
       dispatch(setLoggedInUser(user))
     } catch (error) {
       console.error(error)
@@ -45,7 +45,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         loggedInUser: action.user,
       }
-    case SET_SIGNUP_ERROR:
+    case SET_SIGN_UP_ERROR:
       return {
         ...state,
         signUpError: action.error,

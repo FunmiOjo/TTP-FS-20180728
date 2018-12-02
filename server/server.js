@@ -3,16 +3,13 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const db = require('./db')
-const { User } = require('.')
+const { User } = require('./db/models')
 const session = require('express-session')
 const passport = require('passport')
 const app = express()
 const port = process.env.PORT || 3000
 
 //middleware
-if (process.env.NODE_ENV === 'test') {
-  after('close the session store', () => sessionStore.stopExpiringSessions())
-}
 
 // session middleware
 const SequelizeStore = require('connect-session-sequelize')(session.Store)

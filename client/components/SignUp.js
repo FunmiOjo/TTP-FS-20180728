@@ -16,7 +16,7 @@ class SignUp extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user.loggedInUser.id) {
+    if (this.props.loggedInUser.id) {
       console.log('User logged in')
     }
   }
@@ -72,7 +72,7 @@ class SignUp extends Component {
 
 const mapState = state => {
   return {
-    loggedInUser: state.loggedInUser,
+    loggedInUser: state.user.loggedInUser,
     signUpError: state.user.signUpError,
   }
 }
