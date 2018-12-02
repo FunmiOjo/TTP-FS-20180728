@@ -38,6 +38,7 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "@material-ui/core": "^3.6.1",
     "body-parser": "^1.18.3",
     "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
