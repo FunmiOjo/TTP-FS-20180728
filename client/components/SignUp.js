@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, FormGroup, TextField } from '@material-ui/core'
+import { signUpUser } from '../store/reducers/user'
 
-class Login extends Component {
+class SignUp extends Component {
   constructor() {
     super()
     this.state = {
@@ -13,6 +15,12 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentDidUpdate() {
+    if (this.props.user.loggedInUser.id) {
+      console.log('User logged in')
+    }
+  }
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -21,7 +29,9 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('STATE: ', this.state)
+    const { name, email, password } = this.state
+    this.props.signUpUser({ name, email, password })
+    console.log('handleSubmit has changed')
   }
 
   render() {
@@ -60,4 +70,20 @@ class Login extends Component {
   }
 }
 
-export default Login
+const mapState = state => {
+  return {
+    loggedInUser: state.loggedInUser,
+    signUpError: state.user.signUpError,
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    signUpUser: signUpInfo => dispatch(signUpUser(signUpInfo)),
+  }
+}
+
+export default connect(
+  mapState,
+  mapDispatch
+)(SignUp)
