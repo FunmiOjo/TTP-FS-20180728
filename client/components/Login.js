@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { Button, FormGroup, TextField } from '@material-ui/core'
-import { isEmptyString } from './utils.js'
 
 class Login extends Component {
   constructor() {
     super()
     this.state = {
       name: '',
-      nameErrorMessage: '',
       email: '',
       password: '',
     }
@@ -27,7 +25,7 @@ class Login extends Component {
   }
 
   render() {
-    const { name, nameErrorMessage, email, password } = this.state
+    const { name, email, password } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
         <FormGroup row={false}>
@@ -37,7 +35,6 @@ class Login extends Component {
             name="name"
             type="text"
             value={name}
-            helperText={nameErrorMessage}
             onChange={this.handleChange}
           />
           <TextField
