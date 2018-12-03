@@ -1,3 +1,6 @@
-const { User } = require('./user')
+const Stock = require('./stock')
+const User = require('./user')
 
-module.exports = { User }
+Stock.belongsTo(User)
+
+module.exports = { Stock, User }

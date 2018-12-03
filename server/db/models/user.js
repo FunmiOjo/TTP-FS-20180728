@@ -55,6 +55,4 @@ User.findByEmail = function(email) {
   })
 }
 
-module.exports = {
-  User,
-}
+module.exports = User
