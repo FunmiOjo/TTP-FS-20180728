@@ -32,6 +32,19 @@ export const signUpUser = signUpInfo => {
   }
 }
 
+export const logInUser = userInfo => {
+  return async dispatch => {
+    try {
+      const { data: user } = await axios.put('/auth/login', userInfo)
+      if (user.id) {
+        dispatch(setLoggedInUser(user))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export const fetchLoggedInUser = () => {
   return async dispatch => {
     try {

@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { Button, FormGroup, TextField } from '@material-ui/core'
-import { signUpUser } from '../store/reducers/user'
+import { logInUser } from '../store/reducers/user'
 
-class SignUp extends Component {
+class LogIn extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
       email: '',
       password: '',
       redirectToHome: false,
@@ -25,28 +24,20 @@ class SignUp extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    const { name, email, password } = this.state
-    await this.props.signUpUser({ name, email, password })
+    const { email, password } = this.state
+    await this.props.logInUser({ email, password })
     this.setState({
       redirectToHome: true,
     })
   }
 
   render() {
-    const { name, email, password } = this.state
+    const { email, password } = this.state
     return this.state.redirectToHome ? (
       <Redirect to="/home" />
     ) : (
       <form onSubmit={this.handleSubmit}>
         <FormGroup row={false}>
-          <TextField
-            required
-            label="Name"
-            name="name"
-            type="text"
-            value={name}
-            onChange={this.handleChange}
-          />
           <TextField
             required
             label="Email"
@@ -79,11 +70,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signUpUser: signUpInfo => dispatch(signUpUser(signUpInfo)),
+    logInUser: logInInfo => dispatch(logInUser(logInInfo)),
   }
 }
 
 export default connect(
   mapState,
   mapDispatch
-)(SignUp)
+)(LogIn)
