@@ -5,7 +5,7 @@ const { User } = require('../db/models')
 router.get('/me', (req, res) => {
   if (req.user) {
     const { name, email, id } = req.user
-    res.json({ name, email, id })
+    res.json({ name, email, id, balance })
   } else {
     res.json({})
   }
@@ -20,7 +20,12 @@ router.post('/signup', async (req, res, next) => {
         console.error(error)
         next(error)
       } else {
-        res.json({ name: user.name, email: user.email, id: user.id })
+        res.json({
+          name: user.name,
+          email: user.email,
+          id: user.id,
+          balance: user.balance,
+        })
       }
     })
   } catch (error) {
@@ -46,7 +51,12 @@ router.put('/login', async (req, res, next) => {
           console.error(error)
           next(error)
         } else {
-          res.json({ name: user.name, email: user.email, id: user.id })
+          res.json({
+            name: user.name,
+            email: user.email,
+            id: user.id,
+            balance: user.balance,
+          })
         }
       })
     }
