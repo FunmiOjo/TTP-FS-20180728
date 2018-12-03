@@ -3,7 +3,12 @@ const router = express.Router()
 const { User } = require('../db/models')
 
 router.get('/me', (req, res) => {
-  res.json(req.user)
+  if (req.user) {
+    const { name, email, id } = req.user
+    res.json({ name, email, id })
+  } else {
+    res.json({})
+  }
 })
 
 router.post('/signup', async (req, res, next) => {
@@ -53,7 +58,7 @@ router.put('/login', async (req, res, next) => {
 router.delete('/logout', (req, res) => {
   req.logout()
   req.session.destroy()
-  res.redirect('/')
+  res.json({})
 })
 
 module.exports = router

@@ -94,6 +94,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         signUpError: action.error,
       }
+    case CLEAR_LOGGED_OUT_USER:
+      return {
+        ...state,
+        loggedInUser: {},
+      }
     default:
       return state
   }

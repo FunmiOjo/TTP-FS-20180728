@@ -7,19 +7,30 @@ import UserHome from './UserHome'
 import { fetchLoggedInUser } from '../store/reducers/user'
 
 class Routes extends Component {
-  componentDidMount() {
-    this.props.fetchLoggedInUser()
+  async componentDidMount() {
+    await this.props.fetchLoggedInUser()
   }
 
   render() {
+    const { userIsLoggedIn } = this.props
     return (
       <Switch>
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={LogIn} />
-        <Route path="/home" component={UserHome} />
+        {userIsLoggedIn && (
+          <Switch>
+            <Route path="/home" component={UserHome} />
+          </Switch>
+        )}
         <Route component={SignUp} />
       </Switch>
     )
+  }
+}
+
+const mapState = state => {
+  return {
+    userIsLoggedIn: !!state.user.loggedInUser.id,
   }
 }
 
@@ -29,7 +40,9 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(
-  null,
-  mapDispatch
-)(Routes)
+export default withRouter(
+  connect(
+    mapState,
+    mapDispatch
+  )(Routes)
+)

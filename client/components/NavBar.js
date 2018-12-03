@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { logOutUser } from './store/reducers/user'
-
-const NavBar = () => {}
+import { fetchLoggedInUser, logOutUser } from '../store/reducers/user'
 
 class NavBar extends Component {
   constructor() {
@@ -15,19 +13,33 @@ class NavBar extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
-    this.props.logOutUser()
+  async componentDidMount() {
+    await this.props.fetchLoggedInUser()
+  }
+
+  async handleClick() {
+    await this.props.logOutUser()
   }
 
   render() {
+    const { userIsLoggedIn } = this.props
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Link to="/home">
-              <Typography>Home</Typography>
-            </Link>
-            <Button onClick={this.handleClick}>Log Out</Button>
+            {userIsLoggedIn ? (
+              <Fragment>
+                <Link to="/home">
+                  <Typography>Home</Typography>
+                </Link>
+                <Button onClick={this.handleClick}>Log Out</Button>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Link to="/signup">Sign Up</Link>
+                <Link to="/login">Log In</Link>
+              </Fragment>
+            )}
           </Toolbar>
         </AppBar>
       </div>
@@ -35,13 +47,20 @@ class NavBar extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    userIsLoggedIn: !!state.user.loggedInUser.id,
+  }
+}
+
 const mapDispatch = dispatch => {
   return {
-    logOutUser: () => logOutUser(),
+    fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
+    logOutUser: () => dispatch(logOutUser()),
   }
 }
 
 export default connect(
-  null,
+  mapState,
   mapDispatch
 )(NavBar)
