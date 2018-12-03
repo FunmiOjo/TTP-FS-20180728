@@ -13,10 +13,6 @@ class NavBar extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  async componentDidMount() {
-    await this.props.fetchLoggedInUser()
-  }
-
   async handleClick() {
     await this.props.logOutUser()
   }
