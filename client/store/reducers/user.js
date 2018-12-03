@@ -3,6 +3,7 @@ import axios from 'axios'
 // action types
 const SET_LOGGED_IN_USER = 'SET_LOGGED_IN_USER'
 const SET_SIGN_UP_ERROR = 'SET_SIGN_UP_ERROR'
+const CLEAR_LOGGED_OUT_USER = 'CLEAR_LOGGED_OUT_USER'
 
 // action creators
 const setLoggedInUser = user => {
@@ -16,6 +17,12 @@ const setSignUpError = error => {
   return {
     type: SET_SIGN_UP_ERROR,
     error,
+  }
+}
+
+const clearLoggedOutUser = () => {
+  return {
+    type: CLEAR_LOGGED_OUT_USER,
   }
 }
 
@@ -52,6 +59,17 @@ export const fetchLoggedInUser = () => {
       if (user.id) {
         dispatch(setLoggedInUser(user))
       }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const logOutUser = () => {
+  return async dispatch => {
+    try {
+      await axios.delete('/auth/logout')
+      dispatch(clearLoggedOutUser())
     } catch (error) {
       console.error(error)
     }

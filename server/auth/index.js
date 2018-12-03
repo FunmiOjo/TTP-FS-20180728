@@ -36,10 +36,10 @@ router.put('/login', async (req, res, next) => {
     } else if (!user.isCorrectPassword(password)) {
       res.status(401).send('Incorrect password')
     } else {
-      req.login(user, err => {
-        if (err) {
+      req.login(user, error => {
+        if (error) {
           console.error(error)
-          next(err)
+          next(error)
         } else {
           res.json({ name: user.name, email: user.email, id: user.id })
         }
