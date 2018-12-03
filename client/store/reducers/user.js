@@ -32,6 +32,19 @@ export const signUpUser = signUpInfo => {
   }
 }
 
+export const fetchLoggedInUser = () => {
+  return async dispatch => {
+    try {
+      const { data: user } = await axios.get('/auth/me')
+      if (user.id) {
+        dispatch(setLoggedInUser(user))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 // reducer
 const initialState = {
   loggedInUser: {},

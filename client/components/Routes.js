@@ -3,8 +3,13 @@ import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import SignUp from './SignUp'
 import UserHome from './UserHome'
+import { fetchLoggedInUser } from '../store/reducers/user'
 
 class Routes extends Component {
+  componentDidMount() {
+    this.props.fetchLoggedInUser()
+  }
+
   render() {
     return (
       <Switch>
@@ -16,4 +21,13 @@ class Routes extends Component {
   }
 }
 
-export default Routes
+const mapDispatch = dispatch => {
+  return {
+    fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
+  }
+}
+
+export default connect(
+  null,
+  mapDispatch
+)(Routes)
