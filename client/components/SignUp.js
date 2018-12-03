@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import { signUpUser } from '../store/reducers/user'
 
@@ -10,6 +11,7 @@ class SignUp extends Component {
       name: '',
       email: '',
       password: '',
+      redirectToHome: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -27,16 +29,20 @@ class SignUp extends Component {
     })
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     const { name, email, password } = this.state
-    this.props.signUpUser({ name, email, password })
-    console.log('handleSubmit has changed')
+    await this.props.signUpUser({ name, email, password })
+    this.setState({
+      redirectToHome: true,
+    })
   }
 
   render() {
     const { name, email, password } = this.state
-    return (
+    return this.state.redirectToHome ? (
+      <Redirect to="/home" />
+    ) : (
       <form onSubmit={this.handleSubmit}>
         <FormGroup row={false}>
           <TextField
