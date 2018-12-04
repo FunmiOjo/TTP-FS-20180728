@@ -4,7 +4,7 @@ const { User } = require('../db/models')
 
 router.get('/me', (req, res) => {
   if (req.user) {
-    const { name, email, id } = req.user
+    const { name, email, id, balance } = req.user
     res.json({ name, email, id, balance })
   } else {
     res.json({})

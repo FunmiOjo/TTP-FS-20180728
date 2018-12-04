@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import Balance from './Balance'
 
 class UserHome extends Component {
   render() {
-    const { name } = this.props.loggedInUser
-    return <div>Hello {name}</div>
+    const { name, balance } = this.props.loggedInUser
+    return (
+      <div>
+        <div>Hello {name}</div>
+        <Balance accountBalance={balance} />
+      </div>
+    )
   }
 }
 
