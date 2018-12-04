@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import ErrorMessage from './ErrorMessage'
+import { addPurchasedStock } from '../store/reducers/stock'
 import {
   convertToNumber,
   getStockData,
@@ -65,6 +66,10 @@ class PurchaseForm extends Component {
         this.setState({
           insufficientFundsErrorStatus: false,
         })
+        this.props.addPurchasedStock({
+          ...stockDataResponse,
+          quantity: this.state.quantity,
+        })
       }
 
       console.log('stockDataResponse', stockDataResponse)
@@ -111,7 +116,13 @@ const mapState = state => {
   }
 }
 
+const mapDispatch = dispatch => {
+  return {
+    addPurchasedStock: stock => dispatch(addPurchasedStock(stock)),
+  }
+}
+
 export default connect(
   mapState,
-  null
+  mapDispatch
 )(PurchaseForm)

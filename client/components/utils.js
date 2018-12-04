@@ -25,5 +25,5 @@ export const purchaseValueGreaterThanBalance = ({
   quantity,
   balance,
 }) => {
-  return price * quantity <= balance
+  return price * quantity > balance
 }
