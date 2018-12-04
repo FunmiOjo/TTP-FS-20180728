@@ -24,7 +24,6 @@ class PurchaseForm extends Component {
   }
 
   handleTickerChange(event) {
-    console.log('value', event.target.value)
     this.setState({
       ticker: event.target.value,
     })
