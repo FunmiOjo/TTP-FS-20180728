@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import LogIn from './LogIn'
+import Portfolio from './Portfolio'
 import SignUp from './SignUp'
 import UserHome from './UserHome'
 import { fetchLoggedInUser } from '../store/reducers/user'
@@ -20,6 +21,7 @@ class Routes extends Component {
         {userIsLoggedIn && (
           <Switch>
             <Route path="/home" component={UserHome} />
+            <Route path="/portfolio" component={Portfolio} />
           </Switch>
         )}
         <Route component={SignUp} />
