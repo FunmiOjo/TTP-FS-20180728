@@ -22,10 +22,6 @@ const User = db.define('user', {
       isEmail: true,
     },
   },
-  balance: {
-    type: Sequelize.DOUBLE,
-    defaultValue: 5000,
-  },
   password: {
     type: Sequelize.TEXT,
     allowNull: false,

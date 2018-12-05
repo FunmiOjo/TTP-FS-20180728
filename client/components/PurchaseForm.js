@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import ErrorMessage from './ErrorMessage'
 import { addPurchasedStock } from '../store/reducers/stock'
+import { updateBalance } from '../store/reducers/balance'
+
 import {
   convertToNumber,
   getStockData,
@@ -41,39 +43,46 @@ class PurchaseForm extends Component {
 
   async handleSubmit() {
     event.preventDefault()
-    const stockDataResponse = await getStockData(this.state.ticker)
+    try {
+      const stockDataResponse = await getStockData(this.state.ticker)
 
-    if (stockDataResponse instanceof Error) {
-      console.log('Error')
-      this.setState({
-        tickerErrorStatus: true,
-      })
-    } else {
-      this.setState({
-        tickerErrorStatus: false,
-      })
-      if (
-        purchaseValueGreaterThanBalance({
-          price: stockDataResponse.latestPrice,
-          quantity: this.state.quantity,
-          balance: this.props.balance,
-        })
-      ) {
+      if (stockDataResponse instanceof Error) {
+        console.log('Error')
         this.setState({
-          insufficientFundsErrorStatus: true,
+          tickerErrorStatus: true,
         })
       } else {
         this.setState({
-          insufficientFundsErrorStatus: false,
+          tickerErrorStatus: false,
         })
-        this.props.addPurchasedStock({
-          ...stockDataResponse,
-          quantity: this.state.quantity,
-          userId: this.props.userId,
-        })
-      }
+        if (
+          purchaseValueGreaterThanBalance({
+            price: stockDataResponse.latestPrice,
+            quantity: this.state.quantity,
+            balance: this.props.balance,
+          })
+        ) {
+          this.setState({
+            insufficientFundsErrorStatus: true,
+          })
+        } else {
+          this.setState({
+            insufficientFundsErrorStatus: false,
+          })
 
-      console.log('stockDataResponse', stockDataResponse)
+          this.props.addPurchasedStock({
+            ...stockDataResponse,
+            quantity: this.state.quantity,
+            userId: this.props.userId,
+          })
+
+          const purchaseValue =
+            stockDataResponse.latestPrice * this.state.quantity
+          await this.props.updateBalance(purchaseValue)
+        }
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -113,7 +122,7 @@ class PurchaseForm extends Component {
 
 const mapState = state => {
   return {
-    balance: state.user.loggedInUser.balance,
+    balance: 5000,
     userId: state.user.loggedInUser.id,
   }
 }
@@ -121,6 +130,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     addPurchasedStock: stock => dispatch(addPurchasedStock(stock)),
+    updateBalance: purchaseValue => dispatch(updateBalance(purchaseValue)),
   }
 }
 

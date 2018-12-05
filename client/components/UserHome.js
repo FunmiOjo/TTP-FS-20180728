@@ -5,7 +5,8 @@ import Balance from './Balance'
 
 class UserHome extends Component {
   render() {
-    const { name, balance } = this.props.loggedInUser
+    const { name } = this.props.loggedInUser
+    const { balance } = this.props
     return (
       <div>
         <div>Hello {name}</div>
@@ -18,6 +19,7 @@ class UserHome extends Component {
 const mapState = state => {
   return {
     loggedInUser: state.user.loggedInUser,
+    balance: state.balance.amount,
   }
 }
 

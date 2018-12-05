@@ -6,10 +6,12 @@ import Portfolio from './Portfolio'
 import SignUp from './SignUp'
 import UserHome from './UserHome'
 import { fetchLoggedInUser } from '../store/reducers/user'
+import { fetchBalance } from '../store/reducers/balance'
 
 class Routes extends Component {
   async componentDidMount() {
     await this.props.fetchLoggedInUser()
+    await this.props.fetchBalance()
   }
 
   render() {
@@ -39,6 +41,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
+    fetchBalance: () => dispatch(fetchBalance()),
   }
 }
 

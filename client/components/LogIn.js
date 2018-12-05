@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import { logInUser } from '../store/reducers/user'
+import { fetchBalance } from '../store/reducers/balance'
 
 class LogIn extends Component {
   constructor() {
@@ -26,6 +27,7 @@ class LogIn extends Component {
     event.preventDefault()
     const { email, password } = this.state
     await this.props.logInUser({ email, password })
+    await this.props.fetchBalance()
     this.setState({
       redirectToHome: true,
     })
@@ -71,6 +73,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     logInUser: logInInfo => dispatch(logInUser(logInInfo)),
+    fetchBalance: () => dispatch(fetchBalance()),
   }
 }
 

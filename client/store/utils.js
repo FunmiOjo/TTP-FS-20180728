@@ -7,7 +7,6 @@ export const getIndexOfArrayWithId = (arr, id) => {
 }
 
 export const getNewVersionOfStateWithAddedStock = (stock, portfolio) => {
-  console.log('stock: ', stock, 'portfolio: ', portfolio)
   const indexOfStockInPortfolio = getIndexOfArrayWithId(portfolio, stock.id)
   if (indexOfStockInPortfolio !== undefined) {
     const newPortfolio = portfolio.slice()
@@ -16,4 +15,10 @@ export const getNewVersionOfStateWithAddedStock = (stock, portfolio) => {
   } else {
     return [...portfolio, stock]
   }
+}
+
+export const getNewVersionOfUserWithUpdatedBalance = (user, balance) => {
+  const newObj = { ...user }
+  newObj.balance = balance
+  return newObj
 }

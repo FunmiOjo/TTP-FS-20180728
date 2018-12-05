@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { User } = require('../db/models')
+const { Balance, User } = require('../db/models')
 
 router.get('/me', (req, res) => {
   if (req.user) {
-    const { name, email, id, balance } = req.user
-    res.json({ name, email, id, balance })
+    const { name, email, id } = req.user
+    res.json({ name, email, id })
   } else {
     res.json({})
   }
@@ -15,6 +15,8 @@ router.post('/signup', async (req, res, next) => {
   try {
     const { name, email, password } = req.body
     const user = await User.create({ name, email, password })
+    const balance = await Balance.create({ amount: 5000, userId: user.id })
+    console.log('just created balance ----------------------', balance)
     req.login(user, error => {
       if (error) {
         console.error(error)
@@ -24,7 +26,6 @@ router.post('/signup', async (req, res, next) => {
           name: user.name,
           email: user.email,
           id: user.id,
-          balance: user.balance,
         })
       }
     })
@@ -55,7 +56,6 @@ router.put('/login', async (req, res, next) => {
             name: user.name,
             email: user.email,
             id: user.id,
-            balance: user.balance,
           })
         }
       })
