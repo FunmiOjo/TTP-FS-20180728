@@ -31,7 +31,7 @@ class PurchaseForm extends Component {
     let newQuantity = !(num instanceof Error) ? num : 0
 
     this.setState({
-      quantity: newQuantity,
+      quantity: Math.floor(newQuantity),
     })
   }
 
