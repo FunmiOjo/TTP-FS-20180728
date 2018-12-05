@@ -69,6 +69,7 @@ class PurchaseForm extends Component {
         this.props.addPurchasedStock({
           ...stockDataResponse,
           quantity: this.state.quantity,
+          userId: this.props.userId,
         })
       }
 
@@ -113,6 +114,7 @@ class PurchaseForm extends Component {
 const mapState = state => {
   return {
     balance: state.user.loggedInUser.balance,
+    userId: state.user.loggedInUser.id,
   }
 }
 

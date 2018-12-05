@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getNewVersionOfStateWithAddedStock } from '../utils'
 
 // action types
 const SET_ADDED_PURCHASED_STOCK = 'SET_ADDED_PURCHASED_STOCK'
@@ -30,12 +31,16 @@ export const addPurchasedStock = stockData => {
 const initialState = {
   portfolio: [],
 }
+let indexOfStockInPortfolio
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ADDED_PURCHASED_STOCK:
       return {
         ...state,
-        portfolio: [...state.portfolio, action.stockData],
+        portfolio: getNewVersionOfStateWithAddedStock(
+          action.stockData,
+          state.portfolio
+        ),
       }
     default:
       return state
