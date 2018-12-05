@@ -15,7 +15,7 @@ const setAddedTrade = trade => {
 export const addTrade = trade => {
   return async dispatch => {
     try {
-      const addedTrade = await axios.post('/api/trades', trade)
+      const { data: addedTrade } = await axios.post('/api/trades', trade)
       dispatch(setAddedTrade(addedTrade))
     } catch (error) {
       console.error(error)

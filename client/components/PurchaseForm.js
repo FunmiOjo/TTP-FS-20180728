@@ -81,6 +81,14 @@ class PurchaseForm extends Component {
           const purchaseValue =
             stockDataResponse.latestPrice * this.state.quantity
           this.props.updateBalance(purchaseValue)
+
+          this.props.addTrade({
+            ticker: stockDataResponse.symbol,
+            price: stockDataResponse.latestPrice,
+            quantity: this.state.quantity,
+            userId: this.props.userId,
+            tradeType: 'buy',
+          })
         }
       }
     } catch (error) {
