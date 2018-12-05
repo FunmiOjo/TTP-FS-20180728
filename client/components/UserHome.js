@@ -10,7 +10,7 @@ class UserHome extends Component {
     return (
       <div>
         <div>Hello {name}</div>
-        <Balance accountBalance={balance} />
+        <Balance balance={balance} />
       </div>
     )
   }

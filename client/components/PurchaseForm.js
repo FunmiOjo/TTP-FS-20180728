@@ -89,34 +89,39 @@ class PurchaseForm extends Component {
 
   render() {
     const { ticker, quantity } = this.state
+    const { balance } = this.props
+    console.log('balance:', balance)
     return (
-      <form onSubmit={this.handleSubmit}>
-        <FormGroup row={false}>
-          <TextField
-            required
-            label="Ticker"
-            name="ticker"
-            type="text"
-            value={ticker}
-            onChange={this.handleTickerChange}
-          />
-          <TextField
-            required
-            label="Quantity"
-            name="quantity"
-            type="text"
-            value={quantity}
-            onChange={this.handleQuantityChange}
-          />
-          <Button type="Buy">Submit</Button>
-          {this.state.tickerErrorStatus && (
-            <ErrorMessage message="Please enter a valid ticker." />
-          )}
-          {this.state.insufficientFundsErrorStatus && (
-            <ErrorMessage message="You do not have sufficient funds to make this purchase." />
-          )}
-        </FormGroup>
-      </form>
+      <div>
+        <Balance balance={balance} />
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup row={false}>
+            <TextField
+              required
+              label="Ticker"
+              name="ticker"
+              type="text"
+              value={ticker}
+              onChange={this.handleTickerChange}
+            />
+            <TextField
+              required
+              label="Quantity"
+              name="quantity"
+              type="text"
+              value={quantity}
+              onChange={this.handleQuantityChange}
+            />
+            <Button type="Buy">Submit</Button>
+            {this.state.tickerErrorStatus && (
+              <ErrorMessage message="Please enter a valid ticker." />
+            )}
+            {this.state.insufficientFundsErrorStatus && (
+              <ErrorMessage message="You do not have sufficient funds to make this purchase." />
+            )}
+          </FormGroup>
+        </form>
+      </div>
     )
   }
 }
