@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Balance from './Balance'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import ErrorMessage from './ErrorMessage'
 import { addPurchasedStock } from '../store/reducers/stock'
@@ -122,7 +123,7 @@ class PurchaseForm extends Component {
 
 const mapState = state => {
   return {
-    balance: 5000,
+    balance: state.balance.amount,
     userId: state.user.loggedInUser.id,
   }
 }

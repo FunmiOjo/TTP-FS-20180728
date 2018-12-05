@@ -16,7 +16,6 @@ export const fetchBalance = () => {
   return async dispatch => {
     try {
       const { data: balance } = await axios.get('/api/balance')
-      console.log('balance: ', balance)
       dispatch(setBalance(balance))
     } catch (error) {
       console.error(error)
