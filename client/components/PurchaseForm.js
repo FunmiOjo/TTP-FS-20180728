@@ -90,7 +90,7 @@ class PurchaseForm extends Component {
   render() {
     const { ticker, quantity } = this.state
     const { balance } = this.props
-    console.log('balance:', balance)
+
     return (
       <div>
         <Balance balance={balance} />
