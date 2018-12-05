@@ -2,7 +2,7 @@ const db = require('../index')
 const Sequelize = require('sequelize')
 
 const Trade = db.define('trade', {
-  stockName: {
+  ticker: {
     type: Sequelize.STRING,
     validate: {
       notEmpty: true,

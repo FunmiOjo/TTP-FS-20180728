@@ -2,11 +2,11 @@ const router = require('express').Router()
 const { Trade } = require('../db/models')
 
 router.post('/', async (req, res, next) => {
-  const { stockName, quantity, price, tradeType, userId } = req.body
+  const { ticker, quantity, price, tradeType, userId } = req.body
   console.log('Trade', Trade)
   try {
     const trade = await Trade.create({
-      stockName,
+      ticker,
       quantity,
       price,
       tradeType,

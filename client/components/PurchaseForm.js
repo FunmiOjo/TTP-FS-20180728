@@ -4,6 +4,7 @@ import Balance from './Balance'
 import { Button, FormGroup, TextField } from '@material-ui/core'
 import ErrorMessage from './ErrorMessage'
 import { addPurchasedStock } from '../store/reducers/stock'
+import { addTrade } from '../store/reducers/trade'
 import { updateBalance } from '../store/reducers/balance'
 
 import {
@@ -79,7 +80,7 @@ class PurchaseForm extends Component {
 
           const purchaseValue =
             stockDataResponse.latestPrice * this.state.quantity
-          await this.props.updateBalance(purchaseValue)
+          this.props.updateBalance(purchaseValue)
         }
       }
     } catch (error) {
@@ -136,6 +137,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     addPurchasedStock: stock => dispatch(addPurchasedStock(stock)),
+    addTrade: tradeInfo => dispatch(addTrade(tradeInfo)),
     updateBalance: purchaseValue => dispatch(updateBalance(purchaseValue)),
   }
 }
