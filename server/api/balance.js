@@ -12,13 +12,14 @@ router.get('/', async (req, res) => {
       res.json(userBalance.amount)
     } catch (error) {
       console.error(error)
+      next(error)
     }
   } else {
     res.json(new Error('Unauthorized user'))
   }
 })
 
-router.put('/', async (req, res) => {
+router.put('/', async (req, res, next) => {
   const { purchaseValue } = req.body
 
   if (req.user) {
@@ -35,6 +36,7 @@ router.put('/', async (req, res) => {
       res.json(newBalance.amount)
     } catch (error) {
       console.error(error)
+      next(error)
     }
   } else {
     res.json(new Error('Unauthorized user'))

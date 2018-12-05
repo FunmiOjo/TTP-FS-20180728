@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Stock } = require('../db/models')
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const { symbol: ticker, quantity, userId } = req.body
   try {
     const updatedStockArray = await Stock.findOrCreate({
@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
     res.json(updatedStock)
   } catch (error) {
     console.error(error)
+    next(error)
   }
 })
 

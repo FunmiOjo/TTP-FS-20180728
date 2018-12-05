@@ -7,4 +7,4 @@ Balance.belongsTo(User)
 Stock.belongsTo(User)
 Trade.belongsTo(User)
 
-module.exports = { Balance, Stock, User }
+module.exports = { Balance, Stock, Trade, User }
